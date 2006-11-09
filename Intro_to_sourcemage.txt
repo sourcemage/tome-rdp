@@ -1,0 +1,82 @@
+
+Source Mage is a free and open source project founded on the principle
+of returning control back to System Administrators. 
+Our main project, Source Mage GNU/Linux, is an operating system
+distribution. 
+ 
+1) A source based distribution
+
+We are primarily "source-based" which means that our package
+installation directly compiles the source code on the user's machine.
+This is in contrast to traditional "binary" distributions that use
+pre-compiled packages.
+However, even though we are source-based, we are not a gentoo clone
+(another source-based distribution you may have heard of). The
+similarities tend to end beyond the abstraction of "download and compile
+from source". You can read more about the differences at [[GentooFAQ]].
+
+2) Our values
+
+Our core philosophies are based on software freedom and returning choice
+to the administrator, you can read more about our philosophy in our
+[[SocialContract]].
+
+As we only want to support free software, our main package collection
+(known as a "grimoire") contains exclusively open source software,
+which means any software in there is distributed under one of these
+licences: [[here|LicenseList]]. No package included in the main grimoire
+requires a closed-source package to function. Of course our package
+management system itself, sorcery (link to a sorcery page here), is also
+GPL software. However, we also have a collection of non-free packages
+(such as java binaries, or nvidia-drivers), most of them up to date,
+even though we do not officially maintain them.
+
+To ensure an administrator oriented system, our packages are written
+ with the intention of staying as close to upstream
+vendor's vision as possible. We avoid over-complicating things with
+additional, and often intrusive, scripting and padding many popular
+binary distro's include. You are the administrator and you know how
+best to deploy and configure software. We handle the installation.
+For ease-of-learning, the command names are based on a sorcerous
+metaphor of "cast"ing and "dispel"ling "spells" from a "grimoire". 
+(link to a sorcery (commands) page)
+ 
+3) How we do it (<-- awkward. maybe someone with a better english can
+come up with a better title)
+
+The package management core is first-tier, feature-complete, and
+well-designed. Packages are easy to write because of a rich set of
+libraries and interfaces into the package manager that is balanced
+with the need for simplicity for simple packages. It allows for a
+great ease in custom configuration for needy administrators and hackers
+of all kinds.
+The package management system and the packages are written entirely
+in bash. A common concern is that bash is slow. We beg to differ in
+that anything that runs too slow simply means we're doing it wrong.
+We have shown this time and time again. For further reading see
+[[BashJustification]] (to be written).
+ 
+Additionnaly, the distribution is provided with an easy-to-use basic
+system installer from which administrators can not only install but 
+rebuild to their specification. It is also possible to install from
+alternative methods, like from a chroot (linke to relevant page).
+We currently support x86 architecture, ppc (how true is that?), and
+we are working on fully supporting 64 bits archs as well (same comment).
+(Link to relevant page as well.)
+
+4) Our community
+ 
+We have a strong and vibrant community of developers and users. We
+primarily congregate in irc (freenode #sourcemage) where everyone is
+welcome. We have been told we are one of the most friendly channel and
+we like to discuss a lot of things when not helping newcomers. We also
+frequently collaborate on our mailing lists and in our
+bug tracker. See [[ContactUs]]. Our source code repository is freely
+viewable and modifiable (link to scmweb.sourcemage.org). We welcome
+patches and guide them through peer review and compliance with our
+core principles and policies.
+ 
+If you're ready for GNU/Linux so advanced, it may as well be magic,
+then it's time you tried Source Mage GNU/Linux.
+http://www.sourcemage.org/
+
