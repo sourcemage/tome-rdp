@@ -28,7 +28,8 @@ licences: [[here|LicenseList]]. No package included in the main grimoire
 requires a closed-source package to function. Of course our package
 management system itself, sorcery (link to a sorcery page here), is also
 GPL software. However, we also have a collection of non-free packages
-(such as java binaries, or nvidia-drivers), most of them up to date,
+(the so-called "z-rejected" grimoire, containing packages such as java
+binaries, or nvidia-drivers), most of them up to date,
 even though we do not officially maintain them.
 
 To ensure an administrator oriented system, our packages are written
