@@ -1,69 +1,65 @@
 Why should I use Source Mage?
 
- * How does sourcemage handle dependencies?
-Spells are written to include the dependent packages. As long as any dependent
-packages are installed, the spell will compile and install. In a few cases,
-where a specific option or version is needed to ensure that the spell builds,
-sub_depends are used to ensure that the spells in question have the necessary
-options enabled, or disabled, or the necessary version is built.
+ * Does sourcemage handle dependencies?
+Yes. All packages denote their dependencies and our package management system
+will automatically compile and install them in the appropriate order.
 
  * Does sourcemage suffer from dependency hell?
-Not in the sense that building the new version of, say, xorg would require you
-to update all of the libraries on your system. You can attempt to build xorg
-against the older libraries you've currently got installed on your computer. If
-it fails, you might consider updating some of the depenedencies. Source mage
-doesn't requre a specific version of libs unless specifically noted for the
-spells to build.
+No. Source Mage's package management system automatically traverses the
+dependency graph and installs dependent packages in the appropriate order. Since
+everything is compiled from source, the packages are, in general, less picky
+about specific versions. However, this being said, we reccomend that you keep
+your system up to date. Tracking the stable grimoire should be sufficient.
+<<Still needs more work>>
 
  * Does Source Mage handle multiple versions?
-Yes. Probably not in the way you're thinking, however. If spells are binarily
-incompatible, then there will be different versions in the grimoire, and they
-will be named accordingly. For example, libstdc++, libstdc++2, libstdc++3. The
-ABI for those spells are each different, and can all be installed in parallel.
-For other spells, like gnupg, or cvs, you will be asked for which version to
-install.
+Yes. We maintain several versions of the gcc compiler, because certain spells do
+not compile under, say gcc 4.0.x. We've got  gcc 3.3 and gcc 3.4 packages for
+when specific packages need that version of gcc. For the majority of cases, if
+two versions of a certain program are needed, multiple packages are created.
+Most often, only one version of a specific package is installed anyway
 
  * Can I hand edit a version quickly and easily?
-Yes! Spells are all written in bash, and the configuration files are in plain
-text. It's quite trivial to edit the DETAILS file and update a version number.
-Sorcery will then download the specified version that you've just entered. All
-the spell files are in plain text so it will be very easy to apply a quick hack
-to any of them.
+Yes. Packages are all plain text and written in bash. It doesn't take very much
+skill to modify any specific part of the package. <<LINK TO SOME THING MORE
+SPECIFIC>>
 
  * Does sourcemage have the latest version of $FOO?
-The grimoires are updated daily, at least. Version updates are made on a best
-effort basis. If you don't see a version of a specific spell in there, please
-feel free to submit a patch or two. [[see How to contribute]]
+The grimoires are updated fairly often. Version updates are made on a best
+effort basis. See <<<OUR PACKAGE LISTING PAGE>> If you don't see a version of a
+specific spell in there, please feel free to submit a patch or two. [[see How to
+contribute]]
 
- * Can Source Mage handle binary only packages?
-You bet! Nvidia's binary drivers are supported as well as Sun's Java. You have
-to answer yes to install these spells every time you install them, as they've
-got specific licenses that you may have to agree to that sorcery cannot for
-you.
+ * Can Source Mage handle binary/pre-compiled packages?
+You bet! The compilation step is then basically a no-op.
+
+ * Can I use non Free (proprietary) software on Source Mage?
+Yes, we have packages for things such as Nvidia's drivers and Sun's java.
+<<<Z-rejected>> Note that Source Mage will never depend on any of these packages
+nor will any non-free software be included in the main grimoire. See our
+[[Social Contract]].
 
  * Can Source Mage detect and repair broken packages?
-Yes. There's a tool called cleanse which goes through the installed packages and
-ensures that all the files that were installed by them still exist, as well as
-verifies that the linked libraries all exist. It also checks the md5 sums of all
-the installed files to verify that they've not been modified. Configuration
-files and files that are mutable are ignored.
+Yes. There's a tool called cleanse that can detect and repair most broken
+packages.
 
  * How long does it take to install?
-Depends on a few factors: how fast is your computer, how many packages you
-installed, if you're building a kernel from source instead of just copying the
-default kernel over. I'd say you could get a basic install done, copying kernel,
-in under a half hour.
+Depends on a few factors mostly how fast your computer is. You should be able to
+get your system installed in about a half hour to an hour and a half. The
+rebuilding process after installing typically is an overnight task.
 
  * Can I build my own install CD?
 Not yet. Probably the best way to do that is to use a basic boot cd of your own
 and tarball up a chroot you've built. Or see the [[How to contribute]]
 
  * Does it have a LiveCD to try?
-Not yet. See [[How to contribute]]
+Not yet. However, Source Mage is quite well behaved in a chroot. See [[How to
+contribute]]
 
  * How do I get support?
 The best way to get support is to show up in #sourcemage on irc.freenode.net.
-It's the most developer active location. If you can stand the latency, the
+Most of our developers idle on irc and are quite happy to help. You are also
+welcome to hang out there :) If you can stand the latency, the
 sm-discuss@lists.ibiblio.org mailing list is another good place. We do have
 forums but they're not as actively perused as the mailing lists and irc. We're a
 friendly bunch, except for that one guy, so drop on buy and chat :)
@@ -72,8 +68,10 @@ friendly bunch, except for that one guy, so drop on buy and chat :)
 distribution?
 Source Mage has been around since 2002, at least. See [[Sourcemage history]].
 We're not 1.0 yet, because we don't feel that everything is sufficiently feature
-complete or stable enough. The distro is running our main webserver without
-problems. The author has no qualms using it on production systems. 
+complete. We have set our bar very high, and we'll not call it 1.0 until we are
+comfortable that it is deserving of the 1.0 title. Most of the developers use it
+on all the systems they own. None of us have any qualms about using it in a
+production environment.
 
  * What platforms does SMGL support?
 Source Mage has a ppc, x86 and x86_64 install cd. Most popular architectures are
@@ -84,7 +82,7 @@ take notes ;)
 
  * Can I run SMGL on a production system?
 Yes. The author has several systems running Source Mage n production.
-www.sourcemage.org is a Source Mage system. As is our git repository.
+www.sourcemage.org is a Source Mage system. As is our source code repository ([[OMG LINK TO GIT HERE]]git, btw.
 
  * I've got $FOO hardware, will it work in Source Mage?
 If the linux kernel supports it, yes. If ndiswrapper will do it, yes. Basically,
@@ -95,10 +93,10 @@ Yes. All our documentation is released under the GNU Documentation License and
 all our programs (being the programs we write for Source Mage) are released
 under the GPL. This includes our spells. However, the program the spells install
 may not be GPL. The z-rejected grimoire contains spells that, for whatever
-reason, aren't GPL or are binary only.
+reason, aren't GPL or are released binary only. Our [[ Social Contract ]] has more specifics.
 
- * I think found a bug, what do I do?
-See [[bug reporting procedures]]
+ * Do you have package $FOO?
+Probably, see [[listing]]. If you don't see what you want, and the package has a fairly standard build setup (instructions help :) ) then making a package yourself is quite trivial. We've even got an automated tool to help called [[Quill]]. Feel free to submit the package to us, see [[How To Contribute]].
 
  * Package $FOO isn't in any grimoires, what do I do?
 See [[How to contribute]]. This distribution is maintained by the people that
