@@ -1,0 +1,382 @@
+We can either have all of the information in one file, such as 
+http://wiki.sourcemage.org/GrimoireGurusHandbook, or we can setup each
+section in a separate file, such as
+http://wiki.sourcemage.org/NewGuruHandbook (I like the latter approach
+better).
+
+Guru Handbook v3.0
+
+Section 1: Introduction
+Welcome to helping to improve Source Mage! As a contributing member you are
+entitled to filing bugs, submitting patches, and cleaning up our packages.
+Below you will find instructions and tips on how to be the most helpful you
+may be. You will soon be a bug hunting army of one.
+
+Subscribe to all the freshmeat pages for the software in your section of
+the grimoire, and also appropriate email lists for that software, and also
+subscribe to sm-spell-submit@lists.ibiblio.org for our own notifications.
+You probably have this covered already.
+
+You will be responsible for taking newly contributed spells from new spell
+submissions assigned to you via bugzilla (http://bugs.sourcemage.org/),
+reviewing, correcting and submitting for inclusion in the grimoire. You may
+recruit as many people to help you with this as you want. You can reject,
+decline or otherwise ignore a newly contributed spell for any reason. You
+may delay reviewing spells for as long as you like.
+
+Section 2: Bug tracking
+We are currently using Bugzilla[link], which is accessible from
+http://bugs.sourcemage.org/.
+	Subsection I: Creating an account
+	Subsection II: Searching for bug reports
+	Subsection III: Creating a bug report
+	Subsection IV: Taking ownership of a bug
+	Subsection V: Requesting integration to stable-rc or stable grimoires
+
+Section 3: Patch creation
+We prefer patches to be submitted with the diff options -Naur.
+
+Section 4: SCM Usage
+	Subsection I: Requesting an account
+Here I am assuming you have been invited to obtain write permissions to our
+repositories.
+
+Send an e-mail to emrys@sourcemage.org requesting an SCM account with which
+products (test grimoire, devel Sorcery, cauldron, etc.) you wish to have
+write access to as well as your public RSA key. If you do not have a RSA
+key, you may generate one by running:
+	$ ssh-keygen
+And include the contents of ~/.ssh/id_rsa.pub (assuming you only have one
+RSA key).
+
+You may view the repositories via a web browser at
+http://scmweb.sourcemage.org/.
+
+	Subsection II: Checking out the repositories
+Now that you have an SCM account, you are ready to checkout the repository
+you wish to work on. The following repositories are currently available:
+	cauldron, grimoire, grimoire/games, grimoire/xorg-modular,
+	grimoire/z-rejected, misc/archspecs, misc/prometheus, misc/quill,
+	sorcery, and tome/rdp
+Most Grimoire Developers will only work on with grimoire (which contains
+devel, test, stable-rc, and stable grimoires), so you will check it out
+with:
+	$ git clone ssh://scm.sourcemage.org/smgl/grimoire
+This will create a directory called 'grimoire' in your current directory.
+  
+	Subsection III: Setting up your information
+In each cloned repository, there is a .git/config file where you will
+provide some information (mainly for the commit messages):
+Assuming you are Eric Sandall, you will want to add the following
+information:
+	[user]
+		name = Eric Sandall
+		email = sandalle@sourcemage.org
+
+	Subsection IV: Keeping clones up-to-date
+To grab the latest changes from the SCM, you will 'pull' them to you with
+the following command, run from inside your clone (e.g. ~/grimoire/)
+	$ git pull
+
+Note that all but the `git clone` command need to be run from this
+directory.  If you receive a message saying "fatal: Not a git repository:
+'.git'", then you did not follow my instruction above.
+
+	Subsection V: Selecting your working branch
+The main grimoire that you have checked out has many branches. You may view
+the available branches by running:
+	$ git branch
+And you will see output similar to this:
+  devel
+* master
+  origin
+  stable-0.3
+  stable-0.4
+  stable-rc-0.4
+  stable-rc-0.5
+  stable-rc-0.6
+
+The "*" before "master" means that this is the currently checked out branch.
+To checkout another branch (say devel), you would run:
+	$ git checkout devel
+Unless you know what you are doing, only work in the master (a.k.a. test)
+branch.
+
+You will *never* touch the 'origin' branch, as this is used by git
+internally to check your changes against.
+
+	Subsection VI: Making changes
+Before making any changes, it is a good idea to make sure your clone is
+up-to-date (though this is not required, it does make submitting easier).
+Now that you are up-to-date, let us do a practice update.
+
+Example: git 1.4.3.5 has just been released
+	1. Make sure we are up-to-date with upstream
+		$ git pull
+	2. Make necessary changes to the git files
+		$ cd devel/git
+		$ vi DETAILS HISTORY
+		Change VERSION from 1.4.3.4 to 1.4.3.5
+		Add update entry to HISTORY
+	3. Mark the files you wish to update
+		$ git update-index DETAILS HISTORY
+
+	4. Check which files are slated to be committed
+		$ git status
+		# Updated but not checked in:
+		#   (will commit)
+		#
+		#       modified: devel/git/DETAILS
+		#       modified: devel/git/HISTORY
+		#
+
+	Subsection VII: Committing changes
+Now that we have made our modifications, we should submit them. To commit
+all of your flagged files (from `git status`), run:
+	$ git commit
+This will open up your favorite editor (as defined in the variable $EDITOR)
+with a file describing the files to be updated, where you briefly describe
+what changes you made.
+
+You may also commit only specific files by specifying them on the command
+line:
+	$ git commit DETAILS HISTORY
+This will only commit the DETAILS and HISTORY files in our current
+directory.
+
+If you wish to specify your message log on the command line, rather than in
+your favorite editor, you may do so with the -m flag:
+	$ git commit -m "Updated git to 1.4.3.5"
+
+If ever you make changes you wish to undo, before running `git commit`, you
+may run the following:
+	$ git checkout -f <list of files to revert to origin>
+
+Note that `git commit` only updates your local copy of the repository, not
+the server repository where everyone pulls from.
+
+	Subsection VIII: Pushing changes upstream
+You may do as many commits as you like before pushing your changes back to
+the repository so everyone may see them. To push your changes to the server
+repository, run:
+	$ git push <destination> <source>
+Since we are working in master, we would run:
+	$ git push origin master
+Note that destination will almost always be 'origin'.
+
+	Subsection IX: Resolving conflicts
+When you receive a conflict (usually denoted by the lines):
+	ERROR: Merge conflict in {file}
+	fatal: merge program failed
+	After resolving the conflicts, mark the corrected paths with
+	`git-update-index <paths>` and commit the result.
+Inside the conflicting file you will see the line <<<<< .merge_file_stuff,
+which begins the new changes, and a >>>>>> .merge_file_otherstuff, which
+ends the new changes. Once you resolve the conflict by editing the file
+and remove what should not be there, you will run `git update-index <file>`
+and then commit your changes.
+
+	Subsection X: Creating your own local branch
+	Subsection XI: Creating your own remote branch
+	Subsection XII: Checking out other branches
+	Subsection XIII: Integrating between branches
+	Subsection XIV: Updated a stable-rc or stable grimoire
+These grimoires are special, in that you never modify them directly
+(similar to how you treat the origin branch). To update one of these (say
+stable-rc-0.6), you will use the following steps:
+	1. $ git checkout stable-rc-0.6
+	  Switch to the stable-rc-0.6 branch.
+	2. $ git branch my-stable-rc-0.6
+	  Create a branch of the current stable-rc-0.6 called my-stable-rc-0.6.
+	3. $ git checkout my-stable-rc-0.6
+	  Switch to our local my-stable-rc-0.6 branch.
+	4. cherry-pick the changes you want into my-stable-rc-0.6
+	5. $ git pull origin stable-rc-0.6
+	  This synchronizing stable-rc-0.6 with upstream
+	6. $ git push origin my-stable-rc-0.6:stable-rc-0.6.
+	  This will push your changes from my-stable-rc-0.6 into stable-rc-0.6
+	  and then up to the server (origin).
+
+Section 5: Writing a spell
+	Subsection I: DETAILS
+	Subsection II: PREPARE
+	Subsection III: CONFIGURE
+	Subsection IV: DEPENDS
+	Subsection V: PRE_BUILD
+	Subsection VI: BUILD
+	Subsection VII: PRE_INSTALL
+	Subsection VIII: INSTALL
+	Subsection IX: FINAL
+	Subsection X: TRIGGERS
+	Subsection XI: UP_TRIGGERS
+	Subsection XII: SUB_DEPENDS
+	Subsection XIII: HISTORY
+The format of HISTORY entries is as follows (all lines should be wrapped
+to <80 columns):
+<date>[space]<name>[space]<e-mail address>
+[tab]*[space]<modified filename>[colon][space]<description>
+[tab][space][space]<extra description for this file>
+[tab]*[space]<modified filename>[colon][space]<description>
+[tab][space][space]<extra description for this file>
+[newline]
+
+Example:
+2006-11-13 Eric Sandall <sandalle@sourcemage.org>
+	* DETAILS: Updated to 1.4.3.5
+	  Changed SHORT description to not mention spell name (shorter now)
+
+2006-10-13 Eric Sandall <sandalle@sourcemage.org>
+	* DETAILS: Updated to 1.4.3.4
+	* DEPENDS: Added optional dependency on foo
+	  Removed dependency on bar (bogus entry)
+
+	Subsection XIV: Deprecation
+(copied from http://wiki.sourcemage.org/Spell_Deprecation)
+
+Sometimes spells need to be removed in favor of other spells, e.g. when an
+application gets renamed. This should happen automatically for users that
+have the spell installed.
+
+"old" is the spell to be removed, "new" is the spell that replaces it:
+	1. Create old/PRE_BUILD, old/BUILD and old/INSTALL containing only
+	  'true'.
+	2. Edit old/DETAILS and comment out all SOURCE, SOURCE_URL and HASH/GPG
+	  lines.
+	3. Change the PATCHLEVEL field of old/DETAILS to old PATCHLEVEL+1.
+	4. Create old/DEPENDS containing only 'depends new'.
+	5. Create old/TRIGGERS with 'on_cast old dispel_self'.
+	6. Add new/CONFLICTS containing 'conflicts old y', the y makes sure the
+	  spell will cast without user intervention.
+	7. Put a comment into old/HISTORY that the spell is deprecated and why
+	  (e.g. * Deprecated in favour of... or * Deprecated because...).
+	8. If this was a spell rename, document that rename in the Grimoire
+	  ChangeLog.
+
+When this process is used, a user casting the deprecated old will get new
+installed, removing old in the process.
+
+Change all the spells that depended in any way on the deprecated spell to
+either point to the new one or simply remove the depends if it isn't needed
+anymore.
+
+Deprecated spells should be removed from the test grimoire once the
+deprecation has made its way to stable.
+
+If the deprecation is a rename, and the old spell had some persistent
+variables from configuration settings (CONFIGURE or PREPARE), you should
+transfer those settings as defaults to the new spell. Basically, no user
+settings should be lost. So how do you do that?
+	1. Create old/EXPORTS and put all persistent variables you want to
+	  transfer in it, one variable name per line.
+	2. Create old/REPAIR^none^EXPORTS with the exact same content (as the
+	  EXPORTS file gets read from the tablet, see REPAIR FILES).
+	3. Use persistent_read old OLD_VARIABLE VARIABLE_DEFAULT in new/PREPARE
+	  or new/CONFIGURE.
+	4. Use ${VARIABLE_DEFAULT:-new_default} as default setting for the
+	  corresponding variable in the new spell.
+
+	Subsection XV: ChangeLog
+Any addition/deletion/move of a spell in a grimoire(s) requires a ChangeLog
+entry in the affected grimoire(s). Modifying any of the grimoire generic
+files (e.g. FUNCTIONS) or non-spell specific files (such as section-wide
+files) also requires a ChangeLog entry.
+
+The format of ChangeLog entries is as follows (all lines should be wrapped
+to <80 columns):
+<date>[space]<name>[space]<e-mail address>
+[tab]*[space]<modified filename>[colon][space]<description>
+[tab][space][space]<extra description for this file>
+[tab]*[space]<modified filename>[colon][space]<description>
+[tab][space][space]<extra description for this file>
+[newline]
+
+Example:
+2006-11-13 Eric Sandall <sandalle@sourcemage.org>
+	* FUNCTIONS: Modifyed nspr_update to not fail if the patch doesn't exist
+	  since firefox 2.0 does not require the nss security patch.
+
+2006-10-13 Andrew Stitt <astitt@sourcemage.org>
+	* groups: Added smgl:158 group for SMGL services
+	* accounts: Added sorcery:157:157 user for building Sorcery as a non-
+	  priviledged user.
+
+	Subsection XV: API_VERSION
+This file defines which API version a package, section, or entire grimoire
+uses. All packages below where this is defined use the stated API version
+unless a package or section below overrides it.
+
+	Subsection XVI: FUNCTIONS
+A grimoire library for commonly used functions and readability functions.
+Functions may be added if they are used in more than one package (e.g.
+mozilla_remove_nspr_nss is used for all Mozilla products).
+
+Section 6: Filters
+	Subsection I: excluded
+
+Example:
+	^/home
+
+	Subsection II: protected
+
+Example:
+	^/bin/awk$
+
+	Subsection III: volatiles
+This filter contains a list (can be regular expressions) of files that are
+known to change (e.g. gconf configuration files, modified by almost every
+GNOME package). We know these files will change and that they are supposed
+to change, so here we mark them so `cleanse` is aware and will not report
+them as broken.
+
+Example:
+	^/etc
+This marks all files in /etc as known to be changeable and still be
+considered okay.
+
+Section 7: Compatibility
+	Subsection I: libcompat
+This library is used for forward compatibility with the next release of
+Sorcery. Dummy functions for future Sorcery functions are added here so
+that the grimoire developers may work in advance to have these features
+supported once the new features are available in a stable Sorcery release.
+
+	Subsection II: libgcc
+This library adds multi-gcc version support (used to set which gcc version
+a package is compiling with).
+
+Section 8: Accounts
+	Subsection I: libaccount
+This grimoire library contains functions for creating, checking, and
+retrieving information about account and group information.
+
+	Subsection II: accounts
+Accounts used by programs (usually daemons) during their operation. When
+adding an account with a group, add the group first as you will need to
+know the group id (GID) in advance. The format of account entries is:
+	<account>:<UID>:<Primary GID>:<GID>:<GID>:... etc.
+where UID is the prior listed UID + 1.
+
+Example:
+	musicdaemon:155:29
+	iplog:156:156			<--- This is the one we just added
+	(note that the GID is from the groups example below)
+
+	Subsection III: groups
+Groups used by programs (usually daemons) during their operation. The format
+of group entries is:
+	<group>:<GID>:
+where GID is the prior listed GID + 1.
+
+Example:
+	powerdev:155:
+	iplog:156:		<--- this is the one we just added
+
+Appendix:
+	* File Hierarchy Standards
+	  See http://www.pathname.com/fhs/2.2/
+	* Keywords
+	* Licenses
+	  See http://wiki.sourcemage.org/LicenseList
+	* Linux Standards Base
+	  See http://www.freestandards.org/en/LSB
+
