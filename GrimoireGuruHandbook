@@ -627,6 +627,26 @@ Example:
 	  Removed dependency on bar (bogus entry)
 
 	Subsection: PROVIDES
+The PROVIDES file is used to contain information about what generic
+dependencies a spell provides.
+
+The format of this file is a simple list of provider names, seperated by
+newlines.
+
+Example:
+  MOZILLA-BROWSER
+  EMAIL-CLIENT
+  WEB-BROWSER
+  GRAPHICAL-WEB-BROWSER
+  GECKO
+
+When adding a spell to an existing provider (e.g. adding a new provider for
+GECKO), *all* spells using that provider have to work with the new spell or need
+to be fixed.
+
+Note: due to historical reasons, another syntax using 'provides $NAME' is also
+supported, but should not be used.
+
 	Subsection: Deprecation
 (copied from http://wiki.sourcemage.org/Spell_Deprecation)
 
