@@ -202,21 +202,53 @@ Section 5: Writing a spell
 Even before DETAILS, this file is sourced and cane be used to setup variables
 for use in DETAILS.
 
-Example: Setting up VERSION ahead of time
+There are cases where a spell writer wants to allow a choice of version in a
+spell. Most of the times this is about pulling the current version from a
+source code management system like CVS of Subversion. There are other cases
+where an upstream project releases stable and development versions.
+
+First rule for allowing such a version choice is that all dependencies of the
+spell need to work with all versions, otherwise the spell should be split.
+
+The version choice is done in PREPARE using the usual config_query* functions.
+If there are more than two different versions to choose from, this should be
+done using config_query_list, always defaulting to the version upstream
+recommends as stable.
+
+For versions downloading from a source code management system, the spell should
+also ask the user whether she wants to update that spell automatically on every
+sorcery [system-update|queue] (defaulting to 'n') and setting the version to
+a timestamp.
+
+Example: Setting up VERSION ahead of time for a multi-version spell
 PREPARE:
 config_query  SPELL_CVS  "Use CVS for latest development version?"  n  &&
 
-if  [[  SPELL_CVS == "y"  ]];  then
-  PREPARE_VERSION="cvs"
+if  [[  "$SPELL_CVS" == "y"  ]];  then
+  config_query  SPELL_CVS_AUTOUPDATE  "Update on every system update?"  n
+  if  [[  "$SPELL_CVS_AUTOUPDATE"  ==  "y"  ]];  then
+    PREPARE_VERSION=$(date +%Y%m%d)
+    PREPARE_SOURCE_URL[0]=cvs://:pserver:anonymous@fun.org:/cvsroot/spell:main
+    SOURCE_IGNORE=volatile
+    FORCE_DOWNLOAD="on"
+  else
+    PREPARE_VERSION="cvs"
+  fi
 else
   # Default version
   PREPARE_VERSION="2.1.3"
+      SOURCE_HASH=<some sha512 hash of the 2.1.3 tarball>
 fi
 
 DETAILS:
-  VERSION=${PREPARE_VERSION:-"2.1.3"}
+        VERSION=${PREPARE_VERSION:-"2.1.3"}
+         SOURCE=$SPELL-$VERSION.tar.bz2
+  SOURCE_URL[0]=${PREPARE_SOURCE_URL[0]:-http://www.fun.org/download/$SOURCE}
+
 Note: The ${VAR``:-string}  syntax means if $VAR is not empty, then use $VAR,
 if it is empty, then use the string.
+
+Note: We keep all of the checks out of DETAILS and use PREPARE for the ugliness.
 
 The following variables are available in PREPARE:
 	* SOURCE_CACHE: the directory where the sources reside:
