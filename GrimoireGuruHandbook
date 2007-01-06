@@ -568,6 +568,11 @@ entry in the affected grimoire(s). Modifying any of the grimoire generic
 files (e.g. FUNCTIONS) or non-spell specific files (such as section-wide
 files) also requires a ChangeLog entry.
 
+The reason to include new spells in the ChangeLog, although they technically
+have their own change logs (the spell HISTORY files) is that sorcery will offer
+to show the grimoire ChangeLog on a scribe udpate. With new spells in there
+it's easy to see what's been added.
+
 The format of ChangeLog entries is as follows (all lines should be wrapped
 to <80 columns):
 <date>[space]<name>[space]<e-mail address>
