@@ -727,6 +727,58 @@ This file defines which API version a package, section, or entire grimoire
 uses. All packages below where this is defined use the stated API version
 unless a package or section below overrides it.
 
+	Subsection: Repair files
+Repair files are used for replacing spell files or section/grimoire libraries
+in the tablet.
+
+REPAIR files can be in spell directories, section directories or the grimoire
+base.
+
+The format of the filename is: REPAIR^ID^FILENAME
+
+FILENAME can be anything, its not limited to spell files, you can replace a
+patch file if you really want to.
+
+ID can be one of the four things:
+	* a spell's version
+	* a spell's UPDATED field
+	* the md5sum of FILENAME
+	* the exact string 'none'
+
+The first two are relatively straightforward, if FILENAME exists in the
+spell/section/grimoire dir and the spell's version or updated field matches ID,
+then the file is replaced. If the md5sum of the file in the tablet is the same
+as ID then the file is replaced. (remember that theres a section/grimoire dir
+for each spell).
+
+If the file does NOT exist in the tablet, AND the value of ID is 'none' the
+file is added.
+
+So, you can replace any spell file, or section/grimoire library very easily
+now. It doesnt make a whole lot of sense to use the version or updated values
+for section and grimoire files, but they're there if you want it.
+
+An optimization is put in place such that if we are going to replace the file
+and the file's md5sum is the same as the repair file we skip the replace since
+the replace has presumably already been done.
+
+Cache files are not updated at this time.
+
+The entire tablet is scrubbed after each scribe update. `cleanse --tablet` also
+will do this. There is an additional option to cleanse, --tablet_spell which
+takes a single parameter as a spell name to scrub so you can quickly verify
+that things are working without scrubbing the entire tablet.
+
+TODO:
+	* ^all^
+	  Allow special keyword 'all' to unconditionally update a file in the
+	  tablet, bug 10869
+	* anything else that changed
+
+Repair files dont apply to trigger registration, which is done during cast,
+they repair files that will be executed at a later date. So there is little
+point in repairing TRIGGERS or UP_TRIGGERS.
+
 	Subsection: FUNCTIONS
 A grimoire library for commonly used functions and readability functions.
 Functions may be added if they are used in more than one package (e.g.
