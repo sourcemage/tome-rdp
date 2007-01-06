@@ -556,6 +556,10 @@ if  spell_ok  valgrind;  then
   dispel --notriggers --nosustain $SPELL
 fi  
 
+	Subsection: PRE_REMOVE
+	Subsection: POST_REMOVE
+	Subsection: PRE_RESURRECT
+	Subsection: POST_RESURRECT
 	Subsection: INSTALL
 This file controls the actual install process.  If the INSTALL file is not
 present in the spell, cast uses default_install:
