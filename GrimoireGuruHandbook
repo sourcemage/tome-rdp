@@ -198,7 +198,7 @@ stable-rc-0.6), you will use the following steps:
 	  and then up to the server (origin).
 
 Section 5: Writing a spell
-	Subsection I: PREPARE
+	Subsection: PREPARE
 Even before DETAILS, this file is sourced and cane be used to setup variables
 for use in DETAILS.
 
@@ -262,7 +262,7 @@ The following variables are available in PREPARE:
 For more info on these variables, check /var/lib/sorcery/modules/libcodex
 An important usecase for PREPARE is in multi version spells.
 
-	Subsection II: DETAILS
+	Subsection: DETAILS
 This file contains information about the application which the spell is for.
 
  SPELL
@@ -435,7 +435,7 @@ and fit-to-window methods of viewing. It has mouse support as well, but can be
 used solely from the keyboard.
 EOF
 
-	Subsection III: CONFIGURE
+	Subsection: CONFIGURE
 The CONFIGURE script is sourced during a cast, after DETAILS and before DEPENDS
 and CONFLICTS. It is used to take care of more complex spells for which extra
 information must be gathered and stored. This can be needed when there are
@@ -488,8 +488,8 @@ variable name.
 
 For more examples and functions look into /var/lib/sorcery/modules/libapi.
 
-	Subsection IV: DEPENDS
-	Subsection V: CONFLICTS
+	Subsection: DEPENDS
+	Subsection: CONFLICTS
 This file lists other spells that conflict against the spell being installed,
 which default to 'n' when asked to dispel a currently installed spell.
 
@@ -506,7 +506,7 @@ You may also set the default (e.g. for a spell which conflicts with itself).
 Example: Set the default to 'y' when asked to dispel freeglut
   conflicts  freeglut  y
 
-	Subsection VI: PRE_BUILD
+	Subsection: PRE_BUILD
 The PRE_BUILD file is executed by cast before the BUILD file.
 
 Anything necessary to prepare the spell to be built should be done here, like
@@ -537,8 +537,10 @@ Example:
 The 'NOCONFIGURE="X"' variable to autogen.sh tells autogen.sh to *not* run
 ./configure, since ./configure will be run in default_build.
 
-	Subsection VII: BUILD
-	Subsection VIII: PRE_INSTALL
+	Subsection: DOWNLOAD
+
+	Subsection: BUILD
+	Subsection: PRE_INSTALL
 PRE_INSTALL is responsible for removing the old version of the spell.
 Overriding the default is only necessary in very few special cases.
 
@@ -554,14 +556,14 @@ if  spell_ok  valgrind;  then
   dispel --notriggers --nosustain $SPELL
 fi  
 
-	Subsection IX: INSTALL
+	Subsection: INSTALL
 This file controls the actual install process.  If the INSTALL file is not
 present in the spell, cast uses default_install:
 
 Example:
   make  install
 
-	Subsection X: FINAL
+	Subsection: FINAL
 Often used to display some important follow-up action that the sys-admin may
 need to take. Also used to clean up special build directories or other cruft
 needed during the cast. You use it if you really need to do something while
@@ -577,10 +579,10 @@ Example:
   clamscan -r -i $SOURCE_DIRECTORY/test                        &&
   echo -e "\033[1mTest complete\033[0m"
 
-	Subsection XI: TRIGGERS
-	Subsection XII: UP_TRIGGERS
-	Subsection XIII: SUB_DEPENDS
-	Subsection XIV: HISTORY
+	Subsection: TRIGGERS
+	Subsection: UP_TRIGGERS
+	Subsection: SUB_DEPENDS
+	Subsection: HISTORY
 The format of HISTORY entries is as follows (all lines should be wrapped
 to <80 columns):
 <date>[space]<name>[space]<e-mail address>
@@ -600,8 +602,8 @@ Example:
 	* DEPENDS: Added optional dependency on foo
 	  Removed dependency on bar (bogus entry)
 
-	Subsection XV: PROVIDES
-	Subsection XVI: Deprecation
+	Subsection: PROVIDES
+	Subsection: Deprecation
 (copied from http://wiki.sourcemage.org/Spell_Deprecation)
 
 Sometimes spells need to be removed in favor of other spells, e.g. when an
@@ -646,7 +648,7 @@ settings should be lost. So how do you do that?
 	4. Use ${VARIABLE_DEFAULT:-new_default} as default setting for the
 	  corresponding variable in the new spell.
 
-	Subsection XV: ChangeLog
+	Subsection: ChangeLog
 Any addition/deletion/move of a spell in a grimoire(s) requires a ChangeLog
 entry in the affected grimoire(s). Modifying any of the grimoire generic
 files (e.g. FUNCTIONS) or non-spell specific files (such as section-wide
@@ -676,12 +678,12 @@ Example:
 	* accounts: Added sorcery:157:157 user for building Sorcery as a non-
 	  priviledged user.
 
-	Subsection XVII: API_VERSION
+	Subsection: API_VERSION
 This file defines which API version a package, section, or entire grimoire
 uses. All packages below where this is defined use the stated API version
 unless a package or section below overrides it.
 
-	Subsection XVIII: FUNCTIONS
+	Subsection: FUNCTIONS
 A grimoire library for commonly used functions and readability functions.
 Functions may be added if they are used in more than one package (e.g.
 mozilla_remove_nspr_nss is used for all Mozilla products).
