@@ -555,6 +555,12 @@ if  spell_ok  valgrind;  then
 fi  
 
 	Subsection IX: INSTALL
+This file controls the actual install process.  If the INSTALL file is not
+present in the spell, cast uses default_install:
+
+Example:
+  make  install
+
 	Subsection X: FINAL
 	Subsection XI: TRIGGERS
 	Subsection XII: UP_TRIGGERS
