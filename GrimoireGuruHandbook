@@ -578,8 +578,6 @@ work, so gst-plugins has the following POST_REMOVE:
 Example:
   gst-register-0.8
 
-	Subsection: PRE_RESURRECT
-	Subsection: POST_RESURRECT
 	Subsection: INSTALL
 This file controls the actual install process.  If the INSTALL file is not
 present in the spell, cast uses default_install:
@@ -603,6 +601,8 @@ Example:
   clamscan -r -i $SOURCE_DIRECTORY/test                        &&
   echo -e "\033[1mTest complete\033[0m"
 
+	Subsection: PRE_RESURRECT
+	Subsection: POST_RESURRECT
 	Subsection: TRIGGERS
 	Subsection: UP_TRIGGERS
 	Subsection: SUB_DEPENDS
