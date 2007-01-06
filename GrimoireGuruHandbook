@@ -604,6 +604,50 @@ Example:
 	Subsection: PRE_RESURRECT
 	Subsection: POST_RESURRECT
 	Subsection: TRIGGERS
+Triggers are a solution to the problem that spells might need to act upon
+events happening to other spells.
+
+To this end, four triggers have been created:
+	* on_cast
+	* on_pre_cast
+	* on_dispel
+	* on_pre_dispel
+
+And four actions that can be triggered:
+	* cast_self
+	* dispel_self
+	* check_self
+	* run_script <file>
+
+These triggers are acted upon by sorcery when the events specified in the
+triggers happen. The _pre_ triggers are executed before the spell is cast or
+dispelled, and the others after the spell is cast or dispelled.
+
+Each line in TRIGGERS consists of
+	1) the trigger
+	2) the spell to watch for
+	3) the action to be triggered:
+
+  <trigger> <spell> <action>
+
+Or, when using action run_script:
+  <trigger> <spell> run_script <file>
+
+Take for example the following line in nvidia_driver's TRIGGERS file:
+
+Example:
+  on_cast  linux  cast_self
+
+If nvidia_driver is installed and linux is cast, the above trigger causes
+nvidia_driver to cast itself after linux is done casting.
+
+New triggers are only registered for a spell when it is cast. They are not
+automatically registered during grimoire update. If you are adding a new
+TRIGGERS file, or a line to an existing one, you may also want to update
+PATCHLEVEL in DETAILS. Most of the times, however, a new trigger shouldn't
+force a rebuild. If something breaks, cleanse will identify problems and
+suggest a recast, causing new triggers to be registered. 
+
 	Subsection: UP_TRIGGERS
 	Subsection: SUB_DEPENDS
 	Subsection: HISTORY
