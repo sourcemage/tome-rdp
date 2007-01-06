@@ -507,6 +507,36 @@ Example: Set the default to 'y' when asked to dispel freeglut
   conflicts  freeglut  y
 
 	Subsection VI: PRE_BUILD
+The PRE_BUILD file is executed by cast before the BUILD file.
+
+Anything necessary to prepare the spell to be built should be done here, like
+patching or unpacking additional sources. Usually this is done by adding
+commands after default_pre_build, which unpacks the first source automatically.
+
+Example:
+  default_pre_build                            &&
+  cd  $SOURCE_DIRECTORY                        &&
+  unpack_file 2                                &&
+  patch  -p0  <  $SCRIPT_DIRECTORY/gcc4.patch
+
+Another use for this file is for spells using badly packaged sources that don't
+unpack into a directory.
+
+Example:
+  mk_source_dir   $SOURCE_DIRECTORY  &&
+  cd              $SOURCE_DIRECTORY  &&
+  unpack_file
+
+Many checkouts from an SCM (e.g. CVS) require you to run some setup before
+building.
+
+Example:
+  default_pre_build              &&
+  NOCONFIGURE="X"  ./autogen.sh
+
+The 'NOCONFIGURE="X"' variable to autogen.sh tells autogen.sh to *not* run
+./configure, since ./configure will be run in default_build.
+
 	Subsection VII: BUILD
 	Subsection VIII: PRE_INSTALL
 	Subsection IX: INSTALL
