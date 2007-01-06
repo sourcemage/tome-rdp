@@ -489,15 +489,32 @@ variable name.
 For more examples and functions look into /var/lib/sorcery/modules/libapi.
 
 	Subsection IV: DEPENDS
-	Subsection V: PRE_BUILD
-	Subsection VI: BUILD
-	Subsection VII: PRE_INSTALL
-	Subsection VIII: INSTALL
-	Subsection IX: FINAL
-	Subsection X: TRIGGERS
-	Subsection XI: UP_TRIGGERS
-	Subsection XII: SUB_DEPENDS
-	Subsection XIII: HISTORY
+	Subsection V: CONFLICTS
+This file lists other spells that conflict against the spell being installed,
+which default to 'n' when asked to dispel a currently installed spell.
+
+Example:
+  conflicts freeglut
+
+and for multiple conflicts:
+
+  conflicts  freeglut
+  conflicts  openglut
+
+You may also set the default (e.g. for a spell which conflicts with itself).
+
+Example: Set the default to 'y' when asked to dispel freeglut
+  conflicts  freeglut  y
+
+	Subsection VI: PRE_BUILD
+	Subsection VII: BUILD
+	Subsection VIII: PRE_INSTALL
+	Subsection IX: INSTALL
+	Subsection X: FINAL
+	Subsection XI: TRIGGERS
+	Subsection XII: UP_TRIGGERS
+	Subsection XIII: SUB_DEPENDS
+	Subsection XIV: HISTORY
 The format of HISTORY entries is as follows (all lines should be wrapped
 to <80 columns):
 <date>[space]<name>[space]<e-mail address>
@@ -517,7 +534,8 @@ Example:
 	* DEPENDS: Added optional dependency on foo
 	  Removed dependency on bar (bogus entry)
 
-	Subsection XIV: Deprecation
+	Subsection XV: PROVIDES
+	Subsection XVI: Deprecation
 (copied from http://wiki.sourcemage.org/Spell_Deprecation)
 
 Sometimes spells need to be removed in favor of other spells, e.g. when an
@@ -592,12 +610,12 @@ Example:
 	* accounts: Added sorcery:157:157 user for building Sorcery as a non-
 	  priviledged user.
 
-	Subsection XV: API_VERSION
+	Subsection XVII: API_VERSION
 This file defines which API version a package, section, or entire grimoire
 uses. All packages below where this is defined use the stated API version
 unless a package or section below overrides it.
 
-	Subsection XVI: FUNCTIONS
+	Subsection XVIII: FUNCTIONS
 A grimoire library for commonly used functions and readability functions.
 Functions may be added if they are used in more than one package (e.g.
 mozilla_remove_nspr_nss is used for all Mozilla products).
