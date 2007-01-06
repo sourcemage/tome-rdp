@@ -562,6 +562,21 @@ Example:
   make  install
 
 	Subsection X: FINAL
+Often used to display some important follow-up action that the sys-admin may
+need to take. Also used to clean up special build directories or other cruft
+needed during the cast. You use it if you really need to do something while
+sorcery isn't looking.
+
+Example:
+  local  LOG=/var/log/clam-update.log  &&
+  touch  $LOG                          &&
+  chown  clamav  $LOG                  &&
+  chmod  600     $LOG                  &&
+
+  echo -e "\033[1mThis is a test of the virus scanner\033[0m"  &&
+  clamscan -r -i $SOURCE_DIRECTORY/test                        &&
+  echo -e "\033[1mTest complete\033[0m"
+
 	Subsection XI: TRIGGERS
 	Subsection XII: UP_TRIGGERS
 	Subsection XIII: SUB_DEPENDS
