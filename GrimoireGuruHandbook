@@ -569,6 +569,15 @@ Done in PRE_REMOVE because those commands are installed by shadow, thus aren't
 available after the dispel.
 
 	Subsection: POST_REMOVE
+POST_REMOVE is used to do any cleanup that might be necessary after a spell is
+dispelled.
+
+As an example, gstreamer 0.8 requires plugins to be registered/unregistered to
+work, so gst-plugins has the following POST_REMOVE:
+
+Example:
+  gst-register-0.8
+
 	Subsection: PRE_RESURRECT
 	Subsection: POST_RESURRECT
 	Subsection: INSTALL
