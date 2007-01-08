@@ -649,6 +649,7 @@ force a rebuild. If something breaks, cleanse will identify problems and
 suggest a recast, causing new triggers to be registered. 
 
 	Subsection: UP_TRIGGERS
+	Subsection: PRE_SUB_DEPENDS
 	Subsection: SUB_DEPENDS
 	Subsection: HISTORY
 The format of HISTORY entries is as follows (all lines should be wrapped
