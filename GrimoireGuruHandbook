@@ -197,6 +197,30 @@ stable-rc-0.6), you will use the following steps:
 	  This will push your changes from my-stable-rc-0.6 into stable-rc-0.6
 	  and then up to the server (origin).
 
+	Subsection XV: Fetching a new remote branch
+The need for this most commonly occurs when a new stable branch is released,
+but may be used for any other remote branches you wish to retrieve.
+
+Let's say that stable-0.6 was just released, and your current local branches
+look like this:
+$ git branch
+  devel
+* master
+  origin
+  stable-0.3
+  stable-0.4
+  stable-rc-0.4
+  stable-rc-0.5
+  stable-rc-0.6
+
+To grab the new stable-0.6 and stable-rc-0.7 (the next stable release candidate)
+you would do the following:
+
+$ git fetch ssh://scm.sourcemage.org/smgl/grimoire.git stable-0.6:stable-0.6
+
+This tells git to fetch the remote branch named stable-0.6 (before the ":") and
+call it stable-0.6 (after the ":") into the current git repository.
+
 Section 5: Writing a spell
 	Subsection: PREPARE
 Even before DETAILS, this file is sourced and cane be used to setup variables
