@@ -221,6 +221,12 @@ $ git fetch ssh://scm.sourcemage.org/smgl/grimoire.git stable-0.6:stable-0.6
 This tells git to fetch the remote branch named stable-0.6 (before the ":") and
 call it stable-0.6 (after the ":") into the current git repository.
 
+If you want this branch to be updated on a pull, you will also need to add
+the branch information to .git/remotes/origin:
+	Pull: refs/heads/stable-0.6:refs/heads/stable-0.6
+	Pull: refs/heads/stable-rc-0.7:refs/heads/stable-rc-0.7
+These two lines will add pull information for stable-0.6 and stable-rc-0.7.
+
 Section 5: Writing a spell
 	Subsection: PREPARE
 Even before DETAILS, this file is sourced and cane be used to setup variables
