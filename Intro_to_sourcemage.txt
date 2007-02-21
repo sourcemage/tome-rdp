@@ -4,6 +4,11 @@ of returning control back to System Administrators.
 Our main project, Source Mage GNU/Linux, is an operating system
 distribution. 
  
+0) Who's it for
+
+System administrators, power-users and others who really want control 
+over their systems and want to understand better how "things" work.
+
 1) A source based distribution
 
 We are primarily "source-based" which means that our package
@@ -32,14 +37,16 @@ GPL software. However, we also have a collection of non-free packages
 binaries, or nvidia-drivers), most of them up to date,
 even though we do not officially maintain them.
 
-To ensure an administrator oriented system, our packages are written
- with the intention of staying as close to upstream
+To ensure an administrator oriented system, our packages are written 
+with the intention of staying as close to upstream
 vendor's vision as possible. We avoid over-complicating things with
 additional, and often intrusive, scripting and padding many popular
 binary distro's include. You are the administrator and you know how
 best to deploy and configure software. We handle the installation.
 For ease-of-learning, the command names are based on a sorcerous
-metaphor of "cast"ing and "dispel"ling "spells" from a "grimoire". 
+metaphor of "cast"ing (downloading, configuring, compiling 
+and installing) and "dispel"ling (uninstalling) "spells" (the bash
+scripts for each program) from a "grimoire" (a collection of spells). 
 (link to a sorcery (commands) page)
  
 3) How we do it (<-- awkward. maybe someone with a better english can
@@ -60,9 +67,9 @@ We have shown this time and time again. For further reading see
 Additionnaly, the distribution is provided with an easy-to-use basic
 system installer from which administrators can not only install but 
 rebuild to their specification. It is also possible to install from
-alternative methods, like from a chroot (linke to relevant page).
+alternative methods, like from a chroot (link to relevant page).
 We currently support x86 architecture, ppc (how true is that?), and
-we are working on fully supporting 64 bits archs as well (same comment).
+we are working on fully supporting 64 bit archs as well (same comment).
 (Link to relevant page as well.)
 
 4) Our community
