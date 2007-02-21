@@ -81,8 +81,9 @@ architecture. See [[how to contribute]] once you've done it, don't forget to
 take notes ;)
 
  * Can I run SMGL on a production system?
-Yes. The author has several systems running Source Mage n production.
-www.sourcemage.org is a Source Mage system. As is our source code repository ([[OMG LINK TO GIT HERE]]git, btw.
+Yes. The author has several systems running Source Mage in production.
+www.sourcemage.org is a Source Mage system. As is our source code repository 
+([[OMG LINK TO GIT HERE]]git, btw.
 
  * I've got $FOO hardware, will it work in Source Mage?
 If the linux kernel supports it, yes. If ndiswrapper will do it, yes. Basically,
@@ -93,10 +94,14 @@ Yes. All our documentation is released under the GNU Documentation License and
 all our programs (being the programs we write for Source Mage) are released
 under the GPL. This includes our spells. However, the program the spells install
 may not be GPL. The z-rejected grimoire contains spells that, for whatever
-reason, aren't GPL or are released binary only. Our [[ Social Contract ]] has more specifics.
+reason, aren't GPL or are released binary only. Our [[ Social Contract ]] 
+has more specifics.
 
  * Do you have package $FOO?
-Probably, see [[listing]]. If you don't see what you want, and the package has a fairly standard build setup (instructions help :) ) then making a package yourself is quite trivial. We've even got an automated tool to help called [[Quill]]. Feel free to submit the package to us, see [[How To Contribute]].
+Probably, see [[listing]]. If you don't see what you want, and the package 
+has a fairly standard build setup (instructions help :) ) then making a 
+package yourself is quite trivial. We've even got an automated tool to 
+help called [[Quill]]. Feel free to submit the package to us, see [[How To Contribute]].
 
  * Package $FOO isn't in any grimoires, what do I do?
 See [[How to contribute]]. This distribution is maintained by the people that
