@@ -271,14 +271,136 @@ and remove what should not be there, you will run \textdollar git update-index
 <files>
 and then commit your changes.
 \section{Creating your own local branch}
-\section{Creating your own remote branch}
-\section{Checking out other branches}
-\section{Integrating between branches}
-\section{Updated a stable-rc or stable grimoire}
+If you are planning on doing an update which might take a while (e.g.
+openoffice) you will want to work in your own branch, so you only have to
+resolve conflicts once when you merge back to the master branch.
+\begin{enumerate}
+	\item First, make sure we're up-to-date, no point in missing any
+commits ;)
+\begin{verbatim}
+	$ git checkout master
+	$ git pull
+\end{verbatim}
+	\item Now we'll create our own local branch and check it out in one
+command
+\begin{verbatim}
+	$ git checkout -b devel-openoffice
+	Switched to a new branch "devel-openoffice
+\end{verbatim}
+We may now proceed the long process of getting openoffice to compile. Commit
+as often as you want to this branch, it won't hurt anyone. When you want to
+work on the rest of the grimoire again, make sure everything is commited and
+then checkout ``master'' (or whichever branch you want to work on) and proceed
+as normal, devel-openoffice will always be waiting for you. :)
 
-These grimoires are special, in that you never modify them directly
-(similar to how you treat the origin branch). To update one of these (say
-stable-rc-0.8), you will use the following steps:
+\end{enumerate}
+
+\section{Checking out other branches}
+Checking out another branch will allow you to work on it. Let's say we have
+the following remote branches:
+\begin{verbatim}
+  $ git branch -r
+  origin/HEAD
+  origin/devel
+  origin/devel-iceweasel
+  origin/devel-java
+  origin/devel-oo
+  origin/devel-shadow
+  origin/master
+  origin/origin
+\end{verbatim}
+Now, we'd like to try out some of the shadow work that's going on, so let's
+check it out.
+\begin{verbatim}
+ $ git checkout -b shadow origin/devel-shadow
+ Switched to a new branch "shadow"
+ $ git branch
+   master
+* shadow
+\end{verbatim}
+We now have our own local ``shadow'' branch to play with, which is linked to
+the upstream origin/devel-shadow.
+
+\section{Deleting a local branch}
+Sometimes a branch is a lost cause, or already merged and no longer needed.
+You will need to not have the soon to be deleted branch checked out
+(``master'' is always a good branch to hang out in) and then you may delete it:
+\begin{verbatim}
+	$ git checkout master
+	$ git branch -d devel-openoffice
+\end{verbatim}
+This will only delete the branch if it has been fully merged. If this is a
+lost cause branch, feel free to be more forceful:
+\begin{verbatim}
+	$ git branch -D devel-openoffice
+\end{verbatim}
+This will remove ``devel-openoffice'' no matter its status.
+
+\section{Renaming a local branch}
+If you no longer like the name you've given to a remote branch, fear not!
+Renaming is as simple as ``branch -m <old branch> <new branch>'':
+\begin{verbatim}
+	$ git branch -m devel-openoffice openoffice
+\end{verbatim}
+
+\section{Creating your own remote branch}
+We have our devel-openoffice branch on our machine, but others are wanting to
+help with it, so we'll push it to the upstream grimoire.git on sourcemage.org.
+
+\begin{enumerate}
+	\item Check out the branch we wish to push
+	\begin{verbatim}
+		$ git checkout devel-openoffice
+	\end{verbatim}
+	\item Now we push our currently checked out branch onto the remote
+	\begin{verbatim}
+		$ git push origin devel-openoffice
+updating 'refs/heads/devel-openoffice'
+  from 0000000000000000000000000000000000000000
+  to   fa9869a20bbfb479fafd63ef41e890919df3b6d9
+Generating pack...
+Done counting 0 objects.
+Writing 0 objects.
+Unpacking 0 objects
+
+refs/heads/foo: 0000000000000000000000000000000000000000 ->
+fa9869a20bbfb479fafd63ef41e890919df3b6d9
+Total 0 (delta 0), reused 0 (delta 0)
+	\end{verbatim}
+	\item We'll need to go back to master for some updates
+	\begin{verbatim}
+		$ git checkout master
+		$ git pull
+* refs/remotes/origin/devel-openoffice: storing branch 'devel-openoffice' of
+/home/sandalle/tmp/grimoire/
+  commit: fa9869a
+Already up-to-date.
+	\end{verbatim}
+devel-openoffice should now be a remote branch
+	\item Check that devel-openoffice is remote
+	\begin{verbatim}
+$ git branch -r
+  origin/HEAD
+  origin/devel-openoffice
+  origin/master
+	\end{verbatim}
+	\item Remove your local devel-openoffice (since it is not linked with
+the remote, it will be difficult to keep them in sync)
+	\begin{verbatim}
+		$ git branch -D devel-openoffice
+	\end{verbatim}
+	\item Check out the remote devel-openoffice to your local branch
+	\begin{verbatim}
+		$ git checkout -b devel-openoffice origin/devel-openoffice
+	\end{verbatim}
+\end{enumerate}
+You are now set to collaborate on the devel-openoffice branch with other
+developers. :)
+
+\section{Integrating between branches}
+Let's say we want to merge some fixes from our test (``master'') grimoire into
+stable-rc and stable. To update one of these (say stable-rc-0.8), you will use
+the following steps:
 \begin{enumerate}
 \item Checkout the the origin/stable-rc-0.8 branch and call it stable-rc-0.6
 locally.
