@@ -354,7 +354,8 @@ help with it, so we'll push it to the upstream grimoire.git on sourcemage.org.
 	\end{verbatim}
 	\item Now we push our currently checked out branch onto the remote
 	\begin{verbatim}
-		$ git push origin devel-openoffice
+		$ git push ssh://scm.sourcemage.org/smgl/grimoi
+re devel-openoffice:devel-openoffice
 updating 'refs/heads/devel-openoffice'
   from 0000000000000000000000000000000000000000
   to   fa9869a20bbfb479fafd63ef41e890919df3b6d9
@@ -383,15 +384,6 @@ $ git branch -r
   origin/HEAD
   origin/devel-openoffice
   origin/master
-	\end{verbatim}
-	\item Remove your local devel-openoffice (since it is not linked with
-the remote, it will be difficult to keep them in sync)
-	\begin{verbatim}
-		$ git branch -D devel-openoffice
-	\end{verbatim}
-	\item Check out the remote devel-openoffice to your local branch
-	\begin{verbatim}
-		$ git checkout -b devel-openoffice origin/devel-openoffice
 	\end{verbatim}
 \end{enumerate}
 You are now set to collaborate on the devel-openoffice branch with other
