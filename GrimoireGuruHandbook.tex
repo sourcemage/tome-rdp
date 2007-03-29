@@ -874,6 +874,86 @@ variable name.
 For more examples and functions look into /var/lib/sorcery/modules/libapi.
 
 \section{DEPENDS}
+\subsection{depends}
+Denotes that a spell requires another spell to work.
+Syntax:
+\begin{verbatim}
+	depends  <'spell'>  ['flags']  ['description']  ['grimoire']
+\end{verbatim}
+
+
+Example: This package requires gtk+2 to be installed before compiling
+\begin{verbatim}
+	depends  'gtk+2'
+\end{verbatim}
+
+Example: This package requires gtk+2 to be installed before compiling and
+needs '--with-gtk' passed to ./configure
+\begin{verbatim}
+	depends  'gtk+2'  '--with-gtk'
+\end{verbatim}
+
+Example: This package requires a provider of GECKO before compiling
+\begin{verbatim}
+	depends  'GECKO'
+\end{verbatim}
+
+Example: This package requires a provider of JDK, available only in the
+z-rejected grimoire, before compiling:
+\begin{verbatim}
+	depends  'JDK'  ''  ''  'z-rejected'
+\end{verbatim}
+
+
+\subsection{optional\_depends}
+The given package will build added functionality if this package is installed
+before compilation.
+
+Syntax:
+\begin{verbatim}
+  optional_depends  <'spell'>            \
+                    <'enabling flags'>   \
+                    <'disabling flags'>  \
+                    <'description'>      \
+                    ['grimoire']
+\end{verbatim}
+
+Example: Optionally require gtk+2 for a GTK based GUI
+\begin{verbatim}
+  optional_depends  'gtk+2'                \
+                    '--enable-gui'         \
+                    '--disable-gui'        \
+                    'for a GTK+-based GUI'
+\end{verbatim}
+
+Example: Optionally require JAVA (only available in z-rejected) for a JAVA
+interface.
+\begin{verbatim}
+  optional_depends  'JAVA'                                    \
+                    '--with-java=$INSTALL_ROOT/usr/lib/jdk'   \
+                    '--without-java'                          \
+                    'for JAVA console'                        \
+                    'z-rejected'
+\end{verbatim}
+
+
+\subsection{sub\_depends}
+Not available in Sorcery 1.13.6, so overridden in libcompat to use depends and
+optional\_depends.
+
+\subsection{suggest\_depends}
+Not available in Sorcery 1.13.6, so overridden in libcompat to use
+optional\_depends.
+
+\subsection{runtime\_depends}
+Not available in Sorcery 1.13.6, so overridden in libcompat to use
+depends.
+
+\subsection{force\_depends}
+Causes a dependent spell to be recast when it might not otherwise be. This is
+intended to be called on an already enabled dependency. It can be thought of
+as an inverse of up\_trigger (although it is *not* a trigger)
+
 \section{CONFLICTS}
 This file lists other spells that conflict against the spell being installed,
 which default to 'n' when asked to dispel a currently installed spell.
