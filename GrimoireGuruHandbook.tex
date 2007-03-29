@@ -113,35 +113,62 @@ $ git pull
 Note that all but the `git clone` command need to be run from this
 directory.  If you receive a message saying "fatal: Not a git repository:
 '.git'", then you did not follow my instruction above.
-\section{Selecting your working branch}
-The main grimoire that you have checked out has many branches. You may view
-the available branches by running:
+\section{Viewing local branches}
+Local branches are branches made by you, with only one, ``master'', being
+created for you. To view your local branches, run:
 \begin{verbatim}
 $ git branch
-\end{verbatim}
-And you will see output similar to this:
-
-\begin{verbatim}
-devel
 * master
-origin
-stable-0.3
-stable-0.4
-stable-rc-0.4
-stable-rc-0.5
-stable-rc-0.6
 \end{verbatim}
+The "*" before "master" means that this is the currently checked out
+(working) branch. You may modify local branches as much as you want and you
+will not affect anyone else until you push your changes back to the server
+(see below).
 
-The "*" before "master" means that this is the currently checked out branch.
-To checkout another branch (say devel), you would run:
+\section{Viewing remote branches}
+The main grimoire that you have checked out has many branches. You may view
+the available remote branches by running:
 \begin{verbatim}
-$ git checkout devel
+$ git branch -r
+  origin/HEAD
+  origin/devel
+  origin/devel-iceweasel
+  origin/devel-shadow
+  origin/master
+  origin/stable-0.3
+  origin/stable-0.4
+  origin/stable-0.6
+  origin/stable-0.7
+  origin/stable-0.8
+  origin/stable-rc-0.4
+  origin/stable-rc-0.5
+  origin/stable-rc-0.6
+  origin/stable-rc-0.7
+  origin/stable-rc-0.8
 \end{verbatim}
-Unless you know what you are doing, only work in the master (a.k.a. test)
+All of the branches listed with origin/ are 'remote' branches, ones that are
+available for everyone to use.
+
+\section{Selecting your working branch}
+To checkout another branch (say origin/devel) to work on, you would run:
+\begin{verbatim}
+$ git checkout -b devel origin/devel
+Switched to a new branch "devel
+\end{verbatim}
+Now check what local branches you have
+\begin{verbatim}
+$ git branch
+* devel
+  master
+\end{verbatim}
+You are now working on a local branch of origin/devel called ``devel''.
+
+Unless you know what you are doing, only work in the ``master'' (a.k.a. test)
 branch.
 
 You will *never* touch the 'origin' branch, as this is used by git
 internally to check your changes against.
+
 \section{Making changes}
 Before making any changes, it is a good idea to make sure your clone is
 up-to-date (though this is not required, it does make submitting easier).
@@ -199,7 +226,7 @@ directory.
 If you wish to specify your message log on the command line, rather than in
 your favorite editor, you may do so with the -m flag:
 \begin{verbatim}
-$ git commit -m "Updated git to 1.4.3.5"
+$ git commit -m "git: Updated to 1.4.3.5"
 \end{verbatim}
 
 If ever you make changes you wish to undo, before running `git commit`, you
@@ -218,7 +245,8 @@ repository, run:
 $ git push <destination> <source>
 \end{verbatim}
 
-Since we are working in master, we would run:
+Since we are working in master and want to push to the upstream server, we
+would run:
 \begin{verbatim}
 $ git push origin master
 \end{verbatim}
@@ -240,7 +268,7 @@ which begins the new changes, and a \begin{verbatim}>>>>>>
 .merge_file_otherstuff\end{verbatim}, which
 ends the new changes. Once you resolve the conflict by editing the file
 and remove what should not be there, you will run \textdollar git update-index
-<file>
+<files>
 and then commit your changes.
 \section{Creating your own local branch}
 \section{Creating your own remote branch}
@@ -250,29 +278,26 @@ and then commit your changes.
 
 These grimoires are special, in that you never modify them directly
 (similar to how you treat the origin branch). To update one of these (say
-stable-rc-0.6), you will use the following steps:
+stable-rc-0.8), you will use the following steps:
 \begin{enumerate}
-\item Switch to the stable-rc-0.6 branch.
+\item Checkout the the origin/stable-rc-0.8 branch and call it stable-rc-0.6
+locally.
 \begin{verbatim}
-$ git checkout stable-rc-0.6
+$ git checkout -b stable-rc-0.8 origin/stable-rc-0.8
 \end{verbatim}
-\item Create a branch of the current stable-rc-0.6 called my-stable-rc-0.6 and
-switch to it.
+\item Merge (cherry-pick) the commit id you want (in this example,
+fa9869a20bbfb479fafd63ef41e890919df3b6d9) into the current branch
 \begin{verbatim}
-$ git checkout -b my-stable-rc-0.6
+$ git cherry-pick fa9869a20bbfb479fafd63ef41e890919df3b6d9
 \end{verbatim}
-\item Merge (cherry-pick) the commit id you want into the current branch
+\item Synchronize the local stable-rc-0.8 with upstream origin/stable-rc-0.8
 \begin{verbatim}
-$ git cherry-pick 093af91834hf8a8df90238928f920023
+$ git pull origin origin/stable-rc-0.8
 \end{verbatim}
-\item Synchronize stable-rc-0.6 with upstream
+\item Push your changes from stable-rc-0.8 into origin/stable-rc-0.8 and then
+up to the server (origin).
 \begin{verbatim}
-$ git pull origin stable-rc-0.6
-\end{verbatim}
-\item Push your changes from my-stable-rc-0.6 into stable-rc-0.6 and then up to
-the server (origin).
-\begin{verbatim}
-$ git push origin my-stable-rc-0.6:stable-rc-0.6.
+$ git push origin stable-rc-0.8:origin/stable-rc-0.8
 \end{verbatim}
 \end{enumerate}
 
@@ -280,38 +305,48 @@ $ git push origin my-stable-rc-0.6:stable-rc-0.6.
 The need for this most commonly occurs when a new stable branch is released,
 but may be used for any other remote branches you wish to retrieve.
 
-Let's say that stable-0.6 was just released, and your current local branches
+Let's say that stable-0.8 was just released, and your current local branches
 look like this:
 \begin{verbatim}
-$ git branch
-devel
-* master
-origin
-stable-0.3
-stable-0.4
-stable-rc-0.4
-stable-rc-0.5
-stable-rc-0.6
+$ git branch -r
+  origin/HEAD
+  origin/devel
+  origin/devel-iceweasel
+  origin/devel-shadow
+  origin/master
+  origin/stable-0.3
+  origin/stable-0.4
+  origin/stable-0.6
+  origin/stable-rc-0.4
+  origin/stable-rc-0.5
+  origin/stable-rc-0.6
+  origin/stable-rc-0.7
 \end{verbatim}
 
-To grab the new stable-0.6 and stable-rc-0.7 (the next stable release
-candidate)
-you would do the following:
+New remote branches will automatically be added on your next pull, so just run
+(preferably with the local master checked out):
 \begin{verbatim}
-$ git fetch ssh://scm.sourcemage.org/smgl/grimoire.git stable-0.6:stable-0.6
+$ git pull
 \end{verbatim}
-
-This tells git to fetch the remote branch named stable-0.6 (before the ":") and
-call it stable-0.6 (after the ":") into the current git repository.
-
-If you want this branch to be updated on a pull, you will also need to add
-the branch information to .git/remotes/origin:
+And then you should now have the new remote branches:
 \begin{verbatim}
-Pull: refs/heads/stable-0.6:refs/heads/stable-0.6
-Pull: refs/heads/stable-rc-0.7:refs/heads/stable-rc-0.7
+$ git branch -r
+  origin/HEAD
+  origin/devel
+  origin/devel-iceweasel
+  origin/devel-shadow
+  origin/master
+  origin/stable-0.3
+  origin/stable-0.4
+  origin/stable-0.6
+  origin/stable-0.7
+  origin/stable-0.8
+  origin/stable-rc-0.4
+  origin/stable-rc-0.5
+  origin/stable-rc-0.6
+  origin/stable-rc-0.7
+  origin/stable-rc-0.8
 \end{verbatim}
-
-These two lines will add pull information for stable-0.6 and stable-rc-0.7.
 
 \chapter{Writing a spell}
 \section{PREPARE}
@@ -366,8 +401,7 @@ SOURCE_URL[0]=${PREPARE_SOURCE_URL[0]:-http://www.fun.org/download/$SOURCE}
 \end{verbatim}
 
 Note: The \$\{VAR``:-string\}  syntax means if \$VAR is not empty, then use
-\$VAR,
-if it is empty, then use the string.
+\$VAR, if it is empty, then use the string.
 
 Note: We keep all of the checks out of DETAILS and use PREPARE for the
 ugliness.
@@ -446,7 +480,7 @@ Example:
 SOURCE_DIRECTORY=$BUILD_DIRECTORY/$SPELL-$VERSION
 \end{verbatim}
 
-\subsection{SOURCE_URL}
+\subsection{SOURCE\_URL}
 SOURCE\_URL[*]
 	An array where you specify as many targets of where to download the
 	source from. Must specify the full path (including filename) of the
@@ -504,7 +538,7 @@ SOURCE_HASH=sha512:<hash>:UPSTREAM_HASH
 (actual hash ommited due to insane length)
 \end{verbatim}
 
-\subsection{SOURCE_GPG}
+\subsection{SOURCE\_GPG}
 SOURCE\_GPG/SOURCEn\_GPG
 	A signature used to verify the source file. Consists of
 	<key file>:<signature file>:<verification level>. The key file has to
